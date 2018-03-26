@@ -1,0 +1,65 @@
+﻿$font-path: "../../node_modules/react-widgets/lib/fonts";
+$img-path: "../../node_modules/react-widgets/lib/img";
+
+@import "../../node_modules/react-widgets/lib/scss/react-widgets";
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+html,
+body {
+}
+
+.rw-calendar-grid {
+    height: 14.2857142857em;
+}
+
+.rw-cell.rw-state-selected {
+    color: $component-active-color;
+    background-color: $component-active-bg;
+    border-color: $component-active-bg;
+}
+
+.rw-cell.rw-state-selected:hover {
+    color: $component-active-color;
+    background-color: darken($component-active-bg, 5%);
+}
+
+.toast {
+    position: fixed;
+    z-index: 1;
+    top: 1em;
+    right: 1em;
+
+    @media (max-width: 575.98px) {
+        min-width: 75vw;
+    }
+
+    @media (min-width: 576px) {
+        min-width: 18em;
+    }
+}
+
+.toast.visible {
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+    from {
+        right: -100%;
+    }
+
+    to {
+        right: 1em;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        right: 1em;
+    }
+
+    to {
+        right: -100%;
+    }
+}

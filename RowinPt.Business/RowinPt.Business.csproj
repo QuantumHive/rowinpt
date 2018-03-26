@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AlperAslanApps.AspNetCore\AlperAslanApps.AspNetCore.csproj" />
+    <ProjectReference Include="..\AlperAslanApps.Core\AlperAslanApps.Core.csproj" />
+    <ProjectReference Include="..\RowinPt.Contract\RowinPt.Contract.csproj" />
+    <ProjectReference Include="..\RowinPt.Domain\RowinPt.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Validators\Schedules\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>
