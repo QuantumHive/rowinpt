@@ -12,7 +12,7 @@ class About extends React.Component {
                         <tbody>
                             <tr>
                                 <th>App</th>
-                                <td>RowinPt Planning</td>
+                                <td>{this.props.applicationTitle} Planning</td>
                             </tr>
                             <tr>
                                 <th>Client Versie</th>

@@ -62,7 +62,7 @@ class Reset extends React.Component {
                         <form className="mt-5">
                             <h1 className="h4 font-weight-normal">Reset wachtwoord</h1>
 
-                            <p className="lead">Stel je wachtwoord opnieuw in voor je RowinPt account</p>
+                            <p className="lead">Stel je wachtwoord opnieuw in voor je account</p>
 
                             <div className="form-group">
                                 <label>Wachtwoord</label>
@@ -84,7 +84,7 @@ class Reset extends React.Component {
                                 this.props.error ?
                                     <p>
                                         <small className="text-danger">
-                                            Er is een onverwachte fout opgetreden. Neem contact op met RowinPt indien de fout blijft optreden.
+                                            Er is een onverwachte fout opgetreden. Neem contact op met de technische dienst indien de fout blijft optreden.
                                         </small>
                                     </p>
                                     : null

@@ -18,7 +18,7 @@ class NavMenu extends React.Component {
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light">
                 <div className="container">
-                    <Link to="/" className="navbar-brand d-block d-md-none">RowinPt Beheer</Link>
+                    <Link to="/" className="navbar-brand d-block d-md-none">{this.props.settings.applicationTitle} Beheer</Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigationBar">
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -63,7 +63,8 @@ class NavMenu extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        user: { ...state.user }
+        user: { ...state.user },
+        settings: { ...state.settings }
     };
 }
 

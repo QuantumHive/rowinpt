@@ -48,7 +48,7 @@ class Login extends React.Component {
 
         return (
             <form onSubmit={this.login} id="login" className="d-flex flex-column justify-content-center align-items-center" style={{ height: "100vh" }}>
-                <img className="mb-4 align-self-center" src="/img/rowinpt_logo.png" alt="logo" />
+                <img className="mb-4 align-self-center" src={this.props.settings.blobStorageAccount + "/img/logo_login.png"} alt="logo" />
                 <h1 className="h4 mb-3 font-weight-normal">Inloggen</h1>
 
                 {
@@ -91,7 +91,7 @@ class Login extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return state.authentication;
+    return { ...state.authentication, settings: { ...state.settings } };
 }
 
 function mapDispatchToProps(dispatch) {

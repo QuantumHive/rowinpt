@@ -59,11 +59,11 @@ class Activation extends React.Component {
             <div className="container">
                 <div className="row mt-5">
                     <div className="col-md-6 d-md-none text-center mb-3">
-                        <img className="img-fluid" src="/img/RE-icon-new_60x60.jpg" alt="RowinPt" />
+                        <img className="img-fluid" src={this.props.settings.blobStorageAccount + "/img/logo_60x60.png"} alt="logo" />
                     </div>
 
                     <div className="col-6 d-none d-md-block">
-                        <img className="img-fluid" src="/img/RE-icon-new_120x120.jpg" alt="RowinPt" />
+                        <img className="img-fluid" src={this.props.settings.blobStorageAccount + "/img/logo_120x120.png"} alt="logo" />
                     </div>
                     <div className="col-md-6">
                         <form className="">
@@ -91,7 +91,7 @@ class Activation extends React.Component {
                                 this.props.error ?
                                     <p>
                                         <small className="text-danger">
-                                            Er is een onverwachte fout opgetreden. Neem contact op met RowinPt indien de fout blijft optreden.
+                                            Er is een onverwachte fout opgetreden. Neem contact op met de technische dienst indien de fout blijft optreden.
                                         </small>
                                     </p>
                                     : null
@@ -109,7 +109,7 @@ class Activation extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return { ...state.activation };
+    return { ...state.activation, settings: { ...state.settings } };
 }
 
 function mapDispatchToProps(dispatch) {
