@@ -11,10 +11,16 @@ namespace AlperAslanApps.Core.EntityFrameworkCore.Services
             where TModel : class, IModel, new()
     {
         protected readonly TContext DbContext;
+        private readonly ICompanyContext _companyContext;
 
-        public Repository(TContext dbContext) => DbContext = dbContext;
+        public Repository(TContext dbContext,
+            ICompanyContext companyContext)
+        {
+            DbContext = dbContext;
+            _companyContext = companyContext;
+        }
 
-        public IQueryable<TModel> Entities => DbSet;
+        public IQueryable<TModel> Entities => DbSet.Where(m => m.CompanyId == _companyContext.CompanyId);
 
         public void Add(TModel entity) => DbSet.Add(entity);
 

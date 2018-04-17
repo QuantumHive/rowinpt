@@ -12,7 +12,7 @@ namespace RowinPt.DataAccess.Configuration
     public static class ConfigurationExtensions
     {
         private static IEnumerable<Type> _entityTypes;
-        private static IEnumerable<Type> EntityTypes
+        public static IEnumerable<Type> EntityTypes
         {
             get
             {
@@ -39,7 +39,12 @@ namespace RowinPt.DataAccess.Configuration
         public static void ConfigureQueryFilters(this ModelBuilder modelBuilder, Guid companyId)
         {
             InvokeOpenGenericMethod(nameof(SetSoftDeleteGlobalQueryFilter), new object[] { modelBuilder });
-            InvokeOpenGenericMethod(nameof(SetCompanyIdGlobalQueryFilter), new object[] { modelBuilder, companyId });
+
+            //https://github.com/aspnet/EntityFrameworkCore/issues/10271
+            //BUG: cannot pass guid as value/variable to queryfilter, wait for fix
+            //Current workaround is handled in the Repository class.
+            
+            //InvokeOpenGenericMethod(nameof(SetCompanyIdGlobalQueryFilter), new object[] { modelBuilder, companyId });
         }
 
         private static void InvokeOpenGenericMethod(string methodName, object[] parameters)
