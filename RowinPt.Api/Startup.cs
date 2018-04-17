@@ -26,6 +26,9 @@ namespace RowinPt.Api
         {
             _hostingEnvironment = hostingEnvironment;
             _configuration = configuration;
+
+            StaticSettings.ApplicationTitle = _configuration[ConfigurationKeys.ApplicationTitle];
+            StaticSettings.BlobStorageAccount = _configuration[ConfigurationKeys.BlobStorageAccount];
         }
 
         public void ConfigureServices(IServiceCollection services)

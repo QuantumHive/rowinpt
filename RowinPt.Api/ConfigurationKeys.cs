@@ -7,5 +7,7 @@
         public const string AppUri = nameof(AppUri);
         public const string ManagementAppUri = nameof(ManagementAppUri);
         public const string CompanyId = nameof(CompanyId);
+        public const string ApplicationTitle = nameof(ApplicationTitle);
+        public const string BlobStorageAccount = nameof(BlobStorageAccount);
     }
 }

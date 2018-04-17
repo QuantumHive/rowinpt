@@ -29,6 +29,8 @@ namespace RowinPt.Api.Api
             {
                 AppUri = _settings.AppUri,
                 ManagementAppUri = _settings.ManagementAppUri,
+                ApplicationTitle = _settings.ApplicationTitle,
+                BlobStorageAccount = _settings.BlobStorageAccount,
             };
 
             return information;
@@ -50,5 +52,7 @@ namespace RowinPt.Api.Api
     {
         public string AppUri { get; set; }
         public string ManagementAppUri { get; set; }
+        public string BlobStorageAccount { get; set; }
+        public string ApplicationTitle { get; set; }
     }
 }
