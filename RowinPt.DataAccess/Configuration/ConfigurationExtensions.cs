@@ -31,26 +31,36 @@ namespace RowinPt.DataAccess.Configuration
             foreach (var entityType in EntityTypes)
             {
                 var builder = modelBuilder.Entity(entityType);
-                builder.Property(nameof(IModel.CreatedBy)).IsRequired();
-                builder.Property(nameof(IModel.EditedBy)).IsRequired();
+                builder.Property(nameof(IEditInfo.CreatedBy)).IsRequired();
+                builder.Property(nameof(IEditInfo.EditedBy)).IsRequired();
             }
         }
 
-        public static void ConfigureSoftDeleteQueryFilter(this ModelBuilder modelBuilder)
+        public static void ConfigureQueryFilters(this ModelBuilder modelBuilder, Guid companyId)
         {
-            var openGenericMethod = typeof(ConfigurationExtensions).GetMethod(
-                nameof(SetSoftDeleteGlobalQueryFilter), BindingFlags.NonPublic | BindingFlags.Static);
+            InvokeOpenGenericMethod(nameof(SetSoftDeleteGlobalQueryFilter), new object[] { modelBuilder });
+            InvokeOpenGenericMethod(nameof(SetCompanyIdGlobalQueryFilter), new object[] { modelBuilder, companyId });
+        }
+
+        private static void InvokeOpenGenericMethod(string methodName, object[] parameters)
+        {
+            var openGenericMethod = typeof(ConfigurationExtensions).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
 
             foreach (var entityType in EntityTypes)
             {
                 var method = openGenericMethod.MakeGenericMethod(entityType);
-                method.Invoke(null, new object[] { modelBuilder });
+                method.Invoke(null, parameters);
             }
         }
 
         private static void SetSoftDeleteGlobalQueryFilter<TModel>(ModelBuilder builder)
             where TModel : class, IModel => 
             builder.Entity<TModel>().HasQueryFilter(model => model.Active);
+
+
+        private static void SetCompanyIdGlobalQueryFilter<TModel>(ModelBuilder builder, Guid companyId)
+            where TModel : class, IModel =>
+            builder.Entity<TModel>().HasQueryFilter(model => model.CompanyId == companyId);
 
         public static void ConfigureModels(this ModelBuilder modelBuilder)
         {

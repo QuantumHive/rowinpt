@@ -62,14 +62,14 @@ namespace RowinPt.Api
             Container.RegisterSingleton(() => environment);
             Container.RegisterSingleton<ApplicationSettings>();
 
-            Container.RegisterServices(environment);
+            Container.RegisterServices(environment, configuration);
             Container.RegisterQueryHandlers(assemblies);
             Container.RegisterCommandHandlers(assemblies);
             Container.RegisterValidators(assemblies);
             Container.RegisterDataServices(configuration);
         }
 
-        public static void RegisterServices(this Container container, IHostingEnvironment environment)
+        public static void RegisterServices(this Container container, IHostingEnvironment environment, IConfiguration configuration)
         {
             container.RegisterSingleton(() => new TelemetryClient());
             container.RegisterSingleton<IScopeStarter, SimpleInjectorAsyncScopeStarter>();
@@ -80,12 +80,14 @@ namespace RowinPt.Api
             container.RegisterSingleton<IPasswordHasher, IdentityPasswordHasherAdapter>();
             container.RegisterSingleton(typeof(IPasswordHasher<>), typeof(PasswordHasher<>));
             container.RegisterSingleton<IEnvironment, HostingEnvironmentAdapter>();
-            container.RegisterSingleton<ICompanyContext>(() => new CompanyContext(CompanyIds.RowinPt));
             container.RegisterSingleton<ITokenProvider<UserModel>, UserTokenProvider>();
             container.RegisterSingleton<IHost, WebHost>();
             container.RegisterSingleton<ISessionManager, SessionManager>();
             container.Register<ITokenGenerator, TokenGenerator>();
             container.Register<IEditInfoHandler, EditInfoTracker>(Lifestyle.Scoped);
+
+            var companyId = Guid.Parse(configuration[ConfigurationKeys.CompanyId]);
+            container.RegisterSingleton<ICompanyContext>(() => new CompanyContext(companyId));
 
             container.Register<IDataProtector>(() =>
             {
@@ -152,7 +154,8 @@ namespace RowinPt.Api
         public static void RegisterDataServices(this Container container, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString(ConfigurationKeys.MainDatabase);
-            var dbContextRegistration = Lifestyle.Scoped.CreateRegistration(() => new RowinPtContext(connectionString), container);
+            var companyId = Guid.Parse(configuration[ConfigurationKeys.CompanyId]);
+            var dbContextRegistration = Lifestyle.Scoped.CreateRegistration(() => new RowinPtContext(connectionString, companyId), container);
             container.AddRegistration<RowinPtContext>(dbContextRegistration);
             container.AddRegistration<DbContext>(dbContextRegistration);
 

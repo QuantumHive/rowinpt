@@ -2,12 +2,9 @@
 
 namespace AlperAslanApps.Core
 {
-    public interface IModel : IIdentifier
+    public interface IModel : IIdentifier, IEditInfo
     {
         bool Active { get; set; }
-        string CreatedBy { get; set; }
-        DateTime CreatedOn { get; set; }
-        string EditedBy { get; set; }
-        DateTime EditedOn { get; set; }
+        Guid CompanyId { get; set; }
     }
 }

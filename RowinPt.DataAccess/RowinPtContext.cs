@@ -2,17 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using RowinPt.DataAccess.Configuration;
 using RowinPt.Domain;
+using System;
 
 namespace RowinPt.DataAccess
 {
     public class RowinPtContext : DbContext
     {
         private readonly string _connectionString;
+        private readonly Guid _companyId;
 
-        public RowinPtContext(string connectionString)
+        public RowinPtContext(
+            string connectionString,
+            Guid companyId)
         {
             connectionString.ThrowIfNull(nameof(connectionString));
+
             _connectionString = connectionString;
+            _companyId = companyId;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -25,7 +31,7 @@ namespace RowinPt.DataAccess
             base.OnModelCreating(modelBuilder);
             modelBuilder.ConfigureModels();
             modelBuilder.ConfigureEditInfoOnModels();
-            modelBuilder.ConfigureSoftDeleteQueryFilter();
+            modelBuilder.ConfigureQueryFilters(_companyId);
             modelBuilder.ConfigureDeleteBehaviorRestrict();
         }
 

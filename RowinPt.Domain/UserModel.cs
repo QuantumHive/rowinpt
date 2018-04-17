@@ -12,6 +12,7 @@ namespace RowinPt.Domain
         public string EditedBy { get; set; }
         public DateTime EditedOn { get; set; }
         public bool Active { get; set; }
+        public Guid CompanyId { get; set; }
 
         public string Name { get; set; }
         public Sex Sex { get; set; }

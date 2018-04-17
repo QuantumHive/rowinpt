@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
+using System;
 
 namespace RowinPt.DataAccess.Tools
 {
@@ -9,7 +10,7 @@ namespace RowinPt.DataAccess.Tools
             var database = "RowinPt";
 
             var connectionString = $"Server=.;Database={database};Trusted_Connection=True;MultipleActiveResultSets=true";
-            return new RowinPtContext(connectionString);
+            return new RowinPtContext(connectionString, Guid.Empty);
         }
     }
 }
