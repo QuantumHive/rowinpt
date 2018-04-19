@@ -45,13 +45,14 @@ namespace RowinPt.Business.Validators.Account
                     if (!isPasswordValid)
                     {
                         invalid = true;
+
+                        //bypass for development
+                        if (_environment.IsDevelopment && instance.Credentials.IsDevelopment())
+                        {
+                            invalid = false;
+                        }
                     }
                 }
-            }
-
-            if (_environment.IsDevelopment && instance.Credentials.IsDevelopment())
-            {
-                invalid = false;
             }
 
             // we don't want to inform a potential intruder why the credentials are invalid
