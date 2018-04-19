@@ -10,7 +10,7 @@
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <ApplicationInsightsResourceId>/subscriptions/3a244705-f919-45ce-abf9-91ec8b59c3e1/resourcegroups/rowinpt/providers/microsoft.insights/components/rowinpt-applicationinsights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/3a244705-f919-45ce-abf9-91ec8b59c3e1/resourcegroups/rowinpt/providers/microsoft.insights/components/rowinpt-applicationinsights</ApplicationInsightsAnnotationResourceId>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
     <FileVersion>2.0.0</FileVersion>
   </PropertyGroup>
 
