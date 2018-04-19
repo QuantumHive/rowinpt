@@ -22,8 +22,9 @@ namespace RowinPt.Business.Validators.Plan
         public IEnumerable<ValidationObject> Validate(PlanNewScheduleItemForCustomerCommand instance)
         {
             var model = GetScheduleItem(instance.ScheduleItemId);
+            var count = model.Agenda.Count();
 
-            if(model.Agenda.Count() >= model.Course.Capacity)
+            if(count >= model.Course.Capacity)
             {
                 yield return new ValidationObject
                 {
@@ -32,39 +33,57 @@ namespace RowinPt.Business.Validators.Plan
             }
             else
             {
-                var potentialOverlaps =
+                var overlaps =
                     from item in _scheduleItemReader.Entities.Include(i => i.Agenda)
                     where item.Id != model.Id
                     where item.Date == model.Date
                     where item.CourseId == model.CourseId
                     where item.PersonalTrainerId == model.PersonalTrainerId
-                    select new
+                    where (model.StartTime >= item.StartTime && model.StartTime < item.EndTime)
+                    || (model.EndTime > item.StartTime && model.EndTime <= item.EndTime)
+                    select new Overlap
                     {
-                        item.StartTime,
-                        item.EndTime,
+                        Id = item.Id,
+                        StartTime = item.StartTime,
+                        EndTime = item.EndTime,
                         Registrations = item.Agenda.Count()
                     };
 
-                var overlaps =
-                    from potential in potentialOverlaps
-                    where (model.StartTime >= potential.StartTime && model.StartTime < potential.EndTime)
-                    || (model.EndTime > potential.StartTime && model.EndTime <= potential.EndTime)
-                    select potential.Registrations;
-
-                if(model.Agenda.Count() + overlaps.Sum() >= model.Course.Capacity)
+                foreach(var overlap in overlaps)
                 {
-                    yield return new ValidationObject
+                    var partialOverlaps = GetPartialOverlaps(overlap, overlaps);
+
+                    if(count + overlap.Registrations + partialOverlaps.Sum(o => o.Registrations) >= model.Course.Capacity)
                     {
-                        Message = "Aanmelden voor deze les is niet mogelijk, omdat de les vol zit in combinatie met andere overlappende lessen"
-                    };
+                        yield return new ValidationObject
+                        {
+                            Message = "Aanmelden voor deze les is niet mogelijk, omdat de les vol zit in combinatie met andere overlappende lessen"
+                        };
+                        break;
+                    }
                 }
             }
         }
+
+        private IEnumerable<Overlap> GetPartialOverlaps(Overlap overlap, IEnumerable<Overlap> others) =>
+            from other in others
+            where other.Id != overlap.Id
+            where (overlap.StartTime >= other.StartTime && overlap.StartTime < other.EndTime)
+            || (overlap.EndTime > other.StartTime && overlap.EndTime <= other.EndTime)
+            select other;
 
         private ScheduleItemModel GetScheduleItem(Guid id) => 
             _scheduleItemReader.Entities
             .Include(i => i.Agenda)
             .Include(i => i.Course)
             .Single(i => i.Id == id);
+
+        private struct Overlap
+        {
+            public Guid Id { get; set; }
+            public TimeSpan StartTime { get; set; }
+            public TimeSpan EndTime { get; set; }
+            public int Registrations { get; set; }
+        }
     }
 }
