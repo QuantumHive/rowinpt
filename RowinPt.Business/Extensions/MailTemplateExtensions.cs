@@ -19,6 +19,11 @@ namespace RowinPt.Business
                 return AccountActivationMailTemplates.GetTemplateGeldersportPlain(name, activationUri);
             }
 
+            if (context.CompanyId == CompanyIds.Rowinsports)
+            {
+                return AccountActivationMailTemplates.GetTemplateRowinsportsPlain(name, activationUri);
+            }
+
             throw new ArgumentException("No matching Company Id has been found in the business layer for the consuming app");
         }
 
@@ -33,6 +38,11 @@ namespace RowinPt.Business
             if (context.CompanyId == CompanyIds.Geldersport)
             {
                 return AccountActivationMailTemplates.GetTemplateGeldersportHtml(name, activationUri);
+            }
+
+            if (context.CompanyId == CompanyIds.Rowinsports)
+            {
+                return AccountActivationMailTemplates.GetTemplateRowinsportsHtml(name, activationUri);
             }
 
             throw new ArgumentException("No matching Company Id has been found in the business layer for the consuming app");
@@ -51,6 +61,11 @@ namespace RowinPt.Business
                 return ResetPasswordMailTemplates.GetTemplateGeldersportPlain(name, resetUri);
             }
 
+            if (context.CompanyId == CompanyIds.Rowinsports)
+            {
+                return ResetPasswordMailTemplates.GetTemplateRowinsportsPlain(name, resetUri);
+            }
+
             throw new ArgumentException("No matching Company Id has been found in the business layer for the consuming app");
         }
 
@@ -65,6 +80,11 @@ namespace RowinPt.Business
             if (context.CompanyId == CompanyIds.Geldersport)
             {
                 return ResetPasswordMailTemplates.GetTemplateGeldersportHtml(name, resetUri);
+            }
+
+            if (context.CompanyId == CompanyIds.Rowinsports)
+            {
+                return ResetPasswordMailTemplates.GetTemplateRowinsportsHtml(name, resetUri);
             }
 
             throw new ArgumentException("No matching Company Id has been found in the business layer for the consuming app");
