@@ -19,7 +19,7 @@ namespace RowinPt.DataAccess.Configuration
                 if (_entityTypes == null)
                 {
                     _entityTypes = AssemblyLoader.LoadExportedTypes("rowinpt.domain")
-                        .Where(t => typeof(IModel).IsAssignableFrom(t) && !typeof(UserModel).IsAssignableFrom(t))
+                        .Where(t => typeof(IModel).IsAssignableFrom(t))
                         .ToArray();
                 }
                 return _entityTypes;
@@ -28,7 +28,7 @@ namespace RowinPt.DataAccess.Configuration
 
         public static void ConfigureEditInfoOnModels(this ModelBuilder modelBuilder)
         {
-            foreach (var entityType in EntityTypes)
+            foreach (var entityType in EntityTypes.Where(t => t != typeof(UserModel)))
             {
                 var builder = modelBuilder.Entity(entityType);
                 builder.Property(nameof(IEditInfo.CreatedBy)).IsRequired();
@@ -51,7 +51,8 @@ namespace RowinPt.DataAccess.Configuration
         {
             var openGenericMethod = typeof(ConfigurationExtensions).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
 
-            foreach (var entityType in EntityTypes)
+            //cannot apply query filter on derived types CustomerModel and PersonalTrainerModel, so it is applied now on the UserModel base class
+            foreach (var entityType in EntityTypes.Where(t => t != typeof(CustomerModel) && t != typeof(PersonalTrainerModel)))
             {
                 var method = openGenericMethod.MakeGenericMethod(entityType);
                 method.Invoke(null, parameters);
