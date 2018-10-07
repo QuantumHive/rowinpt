@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -6,7 +6,7 @@
     <Authors>Alper Aslan Apps</Authors>
     <Company>Rowin Enckhof Personal Training</Company>
     <Product>RowinPt React App</Product>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
     <FileVersion>2.0.0</FileVersion>
   </PropertyGroup>
 
