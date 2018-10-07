@@ -14,9 +14,6 @@ namespace RowinPt.Business.QueryHandlers.CourseTypes
         private readonly IReader<SubscriptionModel> _subscriptionReader;
         private readonly IReader<LocationModel> _locationReader;
 
-        private readonly DateTime _min;
-        private readonly DateTime _max;
-
         public GetPlanOverviewForUserQueryHandler(
             IReader<SubscriptionModel> subscriptionReader,
             IReader<LocationModel> locationReader,
@@ -24,22 +21,6 @@ namespace RowinPt.Business.QueryHandlers.CourseTypes
         {
             _subscriptionReader = subscriptionReader;
             _locationReader = locationReader;
-
-            var today = timeProvider.Today;
-            _min = today;
-            _max = MaximumSchedule(today);
-        }
-
-        private DateTime MaximumSchedule(DateTime today)
-        {
-            var max = today.AddDays(7 * 4);
-
-            while(max.DayOfWeek != DayOfWeek.Sunday)
-            {
-                max = max.AddDays(1);
-            }
-
-            return max;
         }
 
         public PlanOverview Handle(GetPlanOverviewForUserQuery query)
@@ -69,39 +50,11 @@ namespace RowinPt.Business.QueryHandlers.CourseTypes
 
             let courses =
                 from course in groupedCourses
-
-                let dates =
-                    from item in course.ScheduleItems
-                    where item.Date >= _min
-                    where item.Date <= _max
-                    where item.Schedule.LocationId == location.Id
-                    group item by item.Date into itemsByDate
-
-                    let times =
-                        from time in itemsByDate
-                        select new PlanTime
-                        {
-                            Id = time.Id,
-                            StartTime = time.StartTime,
-                            EndTime = time.EndTime,
-                            TrainerId = time.PersonalTrainerId,
-                            Trainer = time.PersonalTrainerId.HasValue ? time.PersonalTrainer.Name : string.Empty,
-                            Capacity = time.Course.Capacity,
-                            Registrations = time.Agenda.Count()
-                        }
-
-                    select new PlanDate
-                    {
-                        Date = itemsByDate.Key,
-                        Times = times.ToArray()
-                    }
-
                 select new PlanCourse
                 {
                     Id = course.Id,
                     Name = course.Name,
                     Subscription = course.CourseType.Name,
-                    Dates = dates.ToArray()
                 }
 
             select new PlanLocation
@@ -115,11 +68,8 @@ namespace RowinPt.Business.QueryHandlers.CourseTypes
         {
             var locationsQuery = _locationReader.Entities
                 .Include(l => l.Schedules)
-                .ThenInclude(s => s.ScheduleItems);
-
-            locationsQuery.ThenInclude(i => i.Agenda);
-            locationsQuery.ThenInclude(i => i.PersonalTrainer);
-            locationsQuery.ThenInclude(i => i.Course.CourseType);
+                .ThenInclude(s => s.ScheduleItems)
+                .ThenInclude(i => i.Course.CourseType);
 
             return locationsQuery;
         }

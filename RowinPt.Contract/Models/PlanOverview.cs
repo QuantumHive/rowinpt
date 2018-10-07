@@ -21,8 +21,6 @@ namespace RowinPt.Contract.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Subscription { get; set; }
-
-        public IEnumerable<PlanDate> Dates { get; set; }
     }
 
     public class PlanDate

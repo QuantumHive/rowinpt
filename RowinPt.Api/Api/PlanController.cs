@@ -5,6 +5,7 @@ using RowinPt.Contract.Commands.Plan;
 using RowinPt.Contract.Models;
 using RowinPt.Contract.Queries.Plan;
 using System;
+using System.Collections.Generic;
 
 namespace RowinPt.Api.Api
 {
@@ -31,6 +32,13 @@ namespace RowinPt.Api.Api
         {
             var currentUserId = _userContext.GetId();
             var query = new GetPlanOverviewForUserQuery(currentUserId);
+            return _queryProcessor.Process(query);
+        }
+
+        [HttpGet("dates")]
+        public IEnumerable<PlanDate> GetPlanDates(Guid courseId, Guid locationId)
+        {
+            var query = new GetPlanDatesForCourseQuery(courseId, locationId);
             return _queryProcessor.Process(query);
         }
 
