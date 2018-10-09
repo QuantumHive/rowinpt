@@ -39,13 +39,12 @@ class Schedule extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.submitted && this.state.timeOutId === "") {
-            const plan = JSON.parse(JSON.stringify(this.props.plan));
-            const location = plan.locations.find(l => l.id === this.state.locationId);
-            const course = location.courses.find(c => c.id === this.state.courseId);
-            const date = course.dates.find(d => moment(d.date).isSame(this.state.date, "day"));
+            const date = this.props.planDates.find(d => moment(d.date).isSame(this.state.date, "day"));
             const time = date.times.find(t => t.id === this.state.scheduleItemId);
             time.registrations += 1;
-            this.props.update(plan);
+            const dates = JSON.parse(JSON.stringify(this.props.planDates));
+            this.props.update(dates);
+            this.props.resetPlan(this.props.plan);
             this.props.stop();
 
             const timeOutId = window.setTimeout(() => {
@@ -250,8 +249,9 @@ function mapDispatchToProps(dispatch) {
         getPlanOverview: () => dispatch(apiActions.get(api.plan)),
         getPlanDates: (courseId, locationId) => dispatch(getPlanDates(planDatesApiId, courseId, locationId)),
         submit: id => dispatch(apiActions.post(api.plan, null, id)),
-        update: plan => dispatch(apiActions.setResult(api.plan, plan)),
+        update: dates => dispatch(apiActions.setResult(planDatesApiId, dates)),
         stop: () => dispatch(apiActions.stopCall(api.plan)),
+        resetPlan: plan => dispatch(apiActions.setResult(api.plan, plan)),
         resetAgenda: () => dispatch(apiActions.reset(api.agendacustomer))
     };
 }
