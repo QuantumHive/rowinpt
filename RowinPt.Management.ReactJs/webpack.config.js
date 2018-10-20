@@ -1,6 +1,7 @@
 ﻿const path = require("path");
 const webpack = require("webpack");
 const autoprefixer = require("autoprefixer");
+const version = require("./package.json").version;
 
 module.exports = {
     resolve: { extensions: ["*", ".js"] },
@@ -11,7 +12,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "./wwwroot/dist"),
         publicPath: "/dist/",
-        filename: "[name].js"
+        filename: `[name].v${version}.js`
     },
     devtool: "eval-source-map",
     plugins: [
