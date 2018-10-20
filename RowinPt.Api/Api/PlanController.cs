@@ -42,6 +42,13 @@ namespace RowinPt.Api.Api
             return _queryProcessor.Process(query);
         }
 
+        [HttpGet("times")]
+        public IEnumerable<PlanTime> GetPlanTimes(Guid courseId, Guid locationId, DateTime date)
+        {
+            var query = new GetPlanTimesForCoursePlanDateQuery(locationId, courseId, date);
+            return _queryProcessor.Process(query);
+        }
+
         [HttpPost("{scheduleItemId}")]
         public IActionResult PlanSchedule(Guid scheduleItemId)
         {

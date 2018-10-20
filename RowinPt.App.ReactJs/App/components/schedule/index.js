@@ -6,7 +6,7 @@ import Spinner from "../../common/spinner";
 
 import * as api from "../../api";
 import * as apiActions from "../../actions/api";
-import { getPlanDates } from "./actions";
+import { getPlanDates, getPlanTimes } from "./actions";
 import { isLoading, getResult } from "../../utils/apiHelpers";
 import groupBy from "../../utils/groupBy";
 
@@ -14,6 +14,7 @@ import moment from "moment";
 import { Calendar } from 'react-widgets';
 
 const planDatesApiId = "/plan/dates";
+const planTimesApiId = "/plan/times";
 
 class Schedule extends React.Component {
     constructor(props) {
@@ -39,11 +40,10 @@ class Schedule extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.submitted && this.state.timeOutId === "") {
-            const date = this.props.planDates.find(d => moment(d.date).isSame(this.state.date, "day"));
-            const time = date.times.find(t => t.id === this.state.scheduleItemId);
+            const time = this.props.planTimes.find(t => t.id === this.state.scheduleItemId);
             time.registrations += 1;
-            const dates = JSON.parse(JSON.stringify(this.props.planDates));
-            this.props.update(dates);
+            const times = JSON.parse(JSON.stringify(this.props.planTimes));
+            this.props.update(times);
             this.props.resetPlan(this.props.plan);
             this.props.stop();
 
@@ -82,7 +82,10 @@ class Schedule extends React.Component {
 
     changeDate(value) {
         if (!this.isValidDate(value)) {
-            this.setState({ date: moment(value), scheduleItemId: "" });    
+            const { courseId, locationId } = this.state;
+            const date = moment(value);
+            this.props.getPlanTimes(courseId, locationId, date);
+            this.setState({ date, scheduleItemId: "" });
         }
     }
 
@@ -119,20 +122,14 @@ class Schedule extends React.Component {
         return isInvalid;
     }
 
-    render() {
-        if (this.props.loading) {
-            return <Spinner />;
-        }
-
-        let renderTimes = null;
-        if (this.state.date !== null) {
-            const date = this.props.planDates.find(d => moment(d.date).isSame(this.state.date, "day"));
-            const times = date.times.sort((a, b) => {
+    renderTimes() {
+        if (this.state.date !== null && this.props.planTimes !== null && !this.props.loadingPlanTimes) {
+            const times = this.props.planTimes.sort((a, b) => {
                 if (moment(a.startTime, "HH:mm:ss").isBefore(moment(b.startTime, "HH:mm:ss"))) return -1;
                 if (moment(a.startTime, "HH:mm:ss").isAfter(moment(b.startTime, "HH:mm:ss"))) return 1;
                 return 0;
             });
-            renderTimes = times.map(time => {
+            return times.map(time => {
                 let isFullWithOverlap = false;
                 if (time.trainerId !== "") {
                     const timesWithTrainer = times.filter(t => t.trainerId === time.trainedId && t.id !== time.id);
@@ -144,13 +141,20 @@ class Schedule extends React.Component {
                     const sum = overlappingTimes.reduce((acc, curr) => acc.registrations + curr.registrations, 0);
                     isFullWithOverlap = sum + time.registrations >= time.capacity;
                 }
-                
+
                 return (
                     <option key={time.id} value={time.id} disabled={time.registrations >= time.capacity || isFullWithOverlap}>
                         {moment(time.startTime, "HH:mm:ss").format("HH:mm")} - {moment(time.endTime, "HH:mm:ss").format("HH:mm")}, ({time.registrations}/{time.capacity}) - {time.trainer === "" ? "Niemand" : time.trainer}
                     </option>
                 );
             });
+        }
+        return null;
+    }
+
+    render() {
+        if (this.props.loading) {
+            return <Spinner />;
         }
 
         return (
@@ -209,10 +213,10 @@ class Schedule extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <label>Tijd</label>
-                        <select name="scheduleItemId" className="custom-select" disabled={this.state.date === null} value={this.state.scheduleItemId} onChange={this.handleInputChange}>
+                        <label>Tijd {this.props.loadingPlanTimes ? <i className="fa fa-spinner fa-pulse" /> : null}</label>
+                        <select name="scheduleItemId" className="custom-select" disabled={this.state.date === null || this.props.loadingPlanTimes} value={this.state.scheduleItemId} onChange={this.handleInputChange}>
                             <option value="" disabled>Kies een beschikbare tijd</option>
-                            {renderTimes}
+                            {this.renderTimes()}
                         </select>
                     </div>
 
@@ -232,14 +236,18 @@ class Schedule extends React.Component {
 function mapStateToProps(state) {
     const plan = getResult(state, api.plan);
     const planDates = getResult(state, planDatesApiId);
+    const planTimes = getResult(state, planTimesApiId);
     const loading = isLoading(state, [api.plan]);
     const loadingPlanDates = planDatesApiId in state.api && state.api[planDatesApiId].loading;
+    const loadingPlanTimes = planTimesApiId in state.api && state.api[planTimesApiId].loading;
 
     return {
         plan,
         planDates,
+        planTimes,
         loading,
         loadingPlanDates,
+        loadingPlanTimes,
         submitted: state.api.hasOwnProperty(api.plan) && state.api[api.plan].submitted
     };
 }
@@ -248,8 +256,9 @@ function mapDispatchToProps(dispatch) {
     return {
         getPlanOverview: () => dispatch(apiActions.get(api.plan)),
         getPlanDates: (courseId, locationId) => dispatch(getPlanDates(planDatesApiId, courseId, locationId)),
+        getPlanTimes: (courseId, locationId, date) => dispatch(getPlanTimes(planTimesApiId, courseId, locationId, date)),
         submit: id => dispatch(apiActions.post(api.plan, null, id)),
-        update: dates => dispatch(apiActions.setResult(planDatesApiId, dates)),
+        update: times => dispatch(apiActions.setResult(planTimesApiId, times)),
         stop: () => dispatch(apiActions.stopCall(api.plan)),
         resetPlan: plan => dispatch(apiActions.setResult(api.plan, plan)),
         resetAgenda: () => dispatch(apiActions.reset(api.agendacustomer))

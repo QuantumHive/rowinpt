@@ -26,7 +26,6 @@ namespace RowinPt.Contract.Models
     public class PlanDate
     {
         public DateTime Date { get; set; }
-        public IEnumerable<PlanTime> Times { get; set; }
     }
 
     public class PlanTime

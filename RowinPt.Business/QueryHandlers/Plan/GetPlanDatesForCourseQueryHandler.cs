@@ -44,28 +44,13 @@ namespace RowinPt.Business.QueryHandlers.Plan
                 from course in _courseReader.Entities
                 where course.Id == query.CourseId
                 from item in course.ScheduleItems
+                where item.Schedule.LocationId == query.LocationId
                 where item.Date >= _min
                 where item.Date <= _max
-                where item.Schedule.LocationId == query.LocationId
                 group item by item.Date into itemsByDate
-
-                let times =
-                    from time in itemsByDate
-                    select new PlanTime
-                    {
-                        Id = time.Id,
-                        StartTime = time.StartTime,
-                        EndTime = time.EndTime,
-                        TrainerId = time.PersonalTrainerId,
-                        Trainer = time.PersonalTrainerId.HasValue ? time.PersonalTrainer.Name : string.Empty,
-                        Capacity = time.Course.Capacity,
-                        Registrations = time.Agenda.Count()
-                    }
-
                 select new PlanDate
                 {
                     Date = itemsByDate.Key,
-                    Times = times.ToArray()
                 };
 
             return dates.ToArray();
