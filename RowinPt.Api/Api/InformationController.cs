@@ -45,7 +45,7 @@ namespace RowinPt.Api.Api
         }
 
         [HttpGet("version")]
-        public string GetVersion() => _settings.Version;
+        public string GetVersion() => ApplicationSettings.Version;
     }
 
     public class Information

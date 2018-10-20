@@ -2,15 +2,13 @@
 {
     public class ApplicationSettings
     {
-        public string ApiEndpoint { get; set; }
-        public string Version
+        public ApplicationSettings()
         {
-            get
-            {
-                var version = typeof(Program).Assembly.GetName().Version;
-                return $"{version.Major}.{version.Minor}.{version.Build}";
-            }
+            var version = typeof(Program).Assembly.GetName().Version;
+            Version = $"{version.Major}.{version.Minor}.{version.Build}";
         }
+        public string ApiEndpoint { get; set; }
+        public string Version { get; }
         public string ApiVersion { get; set; }
         public string ApplicationTitle { get; set; }
     }
