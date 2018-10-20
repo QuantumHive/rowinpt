@@ -1,5 +1,5 @@
 {
-  "version": "2.0.5",
+  "version": "2.0.6",
   "name": "rowinpt.api",
   "dependencies": {
     "aspnet-webpack-react": "^3.0.0",
