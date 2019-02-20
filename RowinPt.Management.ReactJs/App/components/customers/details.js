@@ -159,6 +159,7 @@ class Customers extends React.Component {
                     <ul>
                         <li>De klant verliest toegang tot de app</li>
                         <li>De historie van de klant wordt <em>wel</em> bewaard</li>
+                        <li>De klant wordt afgemeld voor alle lessen vanaf vandaag</li>
                     </ul>
                 </div>
             </div>
