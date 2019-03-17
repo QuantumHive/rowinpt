@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 class About extends React.Component {
     render() {
@@ -48,11 +49,11 @@ class About extends React.Component {
                     </table>
                 </div>
                 <p>
-                    Copyright <i className="fa fa-copyright"/> 2018
+                    Copyright <i className="fa fa-copyright" /> 2018 - {moment().format("YYYY")}
                     <br />
                     Rowin Enckhof Personal Training
                     <br />
-                    Gemaakt door <em>Alper Aslan Apps</em>
+                    Gemaakt door <em>Aslan Apps</em>
                 </p>
             </div>
         );

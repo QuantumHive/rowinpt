@@ -7,6 +7,7 @@
             var version = typeof(Program).Assembly.GetName().Version;
             Version = $"{version.Major}.{version.Minor}.{version.Build}";
         }
+
         public string ApiEndpoint { get; set; }
         public string Version { get; }
         public string ApiVersion { get; set; }

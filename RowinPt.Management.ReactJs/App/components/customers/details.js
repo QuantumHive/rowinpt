@@ -67,7 +67,7 @@ class Customers extends React.Component {
                 <ComboButtons to={`/admin/customers/edit/${this.state.data.id}`} onSubmit={this.submitDelete} action="Deactiveren">
                     {this.deleteModalBody()}
                 </ComboButtons>
-                <Link to={`/admin/customers/measurements/${this.state.data.id}`} className="btn btn-success btn-block mb-3">Meetgegevens</Link>
+                <Link to={`/admin/customers/measurements/${this.state.data.id}`} className={`btn btn-success btn-block mb-3 ${this.state.data.emailConfirmed ? "" : "disabled"}`}>Meetgegevens</Link>
 
                 {this.verifiedNotification()}
 

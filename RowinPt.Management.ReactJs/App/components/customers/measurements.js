@@ -26,25 +26,12 @@ class CustomerMeasurements extends React.Component {
             data: this.defaultState(),
             validate: false,
             modal: false
-        }
+        };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submit = this.submit.bind(this);
         this.changeDate = this.changeDate.bind(this);
         this.closeModal = this.closeModal.bind(this);
-    }
-
-    defaultState() {
-        return {
-            date: moment().startOf("month"),
-            weight: "",
-            fatPercentage: "",
-            shoulderSize: "",
-            armSize: "",
-            bellySize: "",
-            waistSize: "",
-            upperLegSize: "",
-        };
     }
 
     componentDidMount() {
@@ -59,6 +46,19 @@ class CustomerMeasurements extends React.Component {
                 this.setState({ data: measurement });
             }
         }
+    }
+
+    defaultState() {
+        return {
+            date: moment().startOf("month"),
+            weight: "",
+            fatPercentage: "",
+            shoulderSize: "",
+            armSize: "",
+            bellySize: "",
+            waistSize: "",
+            upperLegSize: "",
+        };
     }
 
     handleInputChange(event) {
@@ -107,6 +107,17 @@ class CustomerMeasurements extends React.Component {
 
     isEmpty(data) {
         return data === null || data === "" || data === undefined;
+    }
+
+    generalValidationMessage() {
+        if (!this.validateMinimumRequired(this.state.data) && this.state.validate) {
+            return (
+                <p className="text-danger">
+                    Voer minimaal 1 meting in
+            </p>
+            );
+        }
+        return null;
     }
 
     render() {
@@ -225,17 +236,6 @@ class CustomerMeasurements extends React.Component {
                 </Modal>
             </div>
         );
-    }
-
-    generalValidationMessage() {
-        if (!this.validateMinimumRequired(this.state.data) && this.state.validate) {
-            return (
-                <p className="text-danger">
-                    Voer minimaal 1 meting in
-            </p>
-            );
-        }
-        return null;
     }
 }
 

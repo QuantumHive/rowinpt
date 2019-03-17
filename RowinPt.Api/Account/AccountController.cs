@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RowinPt.Contract.Commands.Account;
 using RowinPt.Contract.Models;
 using RowinPt.Contract.Queries.Users;
@@ -23,14 +24,14 @@ namespace RowinPt.Api.Account
             ICommandHandler<ActivateAccountCommand> activationHandler,
             IHostingEnvironment hostingEnvironment,
             IQueryProcessor queryProcessor,
-            ApplicationSettings applicationSettings,
+            IOptions<ApplicationSettings> applicationSettings,
             IUserContext userContext)
         {
             _sessionManager = sessionManager;
             _activationHandler = activationHandler;
             _hostingEnvironment = hostingEnvironment;
             _queryProcessor = queryProcessor;
-            _applicationSettings = applicationSettings;
+            _applicationSettings = applicationSettings.Value;
             _userContext = userContext;
         }
 

@@ -60,7 +60,6 @@ namespace RowinPt.Api
 
             Container.RegisterSingleton(() => configuration);
             Container.RegisterSingleton(() => environment);
-            Container.RegisterSingleton<ApplicationSettings>();
 
             Container.RegisterServices(environment, configuration);
             Container.RegisterQueryHandlers(assemblies);
@@ -175,6 +174,7 @@ namespace RowinPt.Api
             Container.CrossWire<ILoggerFactory>(app);
             Container.CrossWire<IOptions<PasswordHasherOptions>>(app);
             Container.CrossWire<IOptions<SendGridMailOptions>>(app);
+            Container.CrossWire<IOptions<ApplicationSettings>>(app);
             Container.CrossWire<IDataProtectionProvider>(app);
         }
     }

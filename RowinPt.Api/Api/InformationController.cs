@@ -1,5 +1,6 @@
 ﻿using AlperAslanApps.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RowinPt.Contract.Models;
 using RowinPt.Contract.Queries.Users;
 
@@ -13,11 +14,11 @@ namespace RowinPt.Api.Api
         private readonly IQueryProcessor _queryProcessor;
 
         public InformationController(
-            ApplicationSettings settings,
+            IOptions<ApplicationSettings> settings,
             IUserContext userContext,
             IQueryProcessor queryProcessor)
         {
-            _settings = settings;
+            _settings = settings.Value;
             _userContext = userContext;
             _queryProcessor = queryProcessor;
         }
@@ -45,7 +46,7 @@ namespace RowinPt.Api.Api
         }
 
         [HttpGet("version")]
-        public string GetVersion() => ApplicationSettings.Version;
+        public string GetVersion() => new ApplicationSettings().Version;
     }
 
     public class Information

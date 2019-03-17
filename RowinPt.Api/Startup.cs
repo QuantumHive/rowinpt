@@ -64,6 +64,8 @@ namespace RowinPt.Api
             services.Configure<DataProtectionOptions>(
                 options => options.ApplicationDiscriminator = "RowinPt.Api.v1");
 
+            services.Configure<ApplicationSettings>(_configuration);
+
             services.IntegrateSimpleInjector(_hostingEnvironment, _configuration);
         }
 
