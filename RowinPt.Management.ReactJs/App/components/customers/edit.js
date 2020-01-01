@@ -155,6 +155,11 @@ class Customers extends React.Component {
                         <input type="text" name="number" className="form-control" placeholder="Klantnummer" value={this.state.number} onChange={this.handleInputChange} />
                     </div>
 
+                    <div className="form-group">
+                        <label>Doelstelling</label>
+                        <textarea value={this.state.goal} onChange={this.handleInputChange} rows="3" className="form-control" name="goal" placeholder="Doelstelling" />
+                    </div>
+
                     <Subscription courseTypes={this.props.coursetypes} subscriptions={this.state.subscriptions} chooseSubscription={this.chooseSubscription} />
                     
                     <Submit onSubmit={this.submit}>Opslaan</Submit>
