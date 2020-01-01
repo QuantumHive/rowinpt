@@ -22,7 +22,7 @@ class Profile extends React.Component {
 
         return (
             <div>
-                <Header>Profiel</Header>
+                <Header>Resultaten</Header>
 
                 <div className="row">
                     <div className="col-lg-6">

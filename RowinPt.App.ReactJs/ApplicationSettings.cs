@@ -12,6 +12,7 @@
         public string Version { get; }
         public string ApiVersion { get; set; }
         public string ApplicationTitle { get; set; }
+        public string BlobStorageAccount { get; set; }
     }
 
     public static class StaticSettings

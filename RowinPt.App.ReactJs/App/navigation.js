@@ -18,7 +18,9 @@ class NavMenu extends React.Component {
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light">
                 <div className="container">
-                    <Link to="/" className="navbar-brand d-block d-md-none">{this.props.settings.applicationTitle}</Link>
+                    <Link to="/" className="navbar-brand d-block">
+                        <img src={this.props.settings.blobStorageAccount + "/img/logo_login.png"} height="24" alt="" />
+                    </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigationBar">
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -27,7 +29,7 @@ class NavMenu extends React.Component {
                         <div className="navbar-nav">
                             <NavLink exact to="/" className="nav-link nav-item" onClick={this.navBarCollapseClick}> Agenda</NavLink>
                             <NavLink exact to="/schedule" className="nav-link nav-item" onClick={this.navBarCollapseClick}> Inplannen</NavLink>
-                            <NavLink exact to="/profile" className="nav-link nav-item" onClick={this.navBarCollapseClick}> Profiel</NavLink>
+                            <NavLink exact to="/profile" className="nav-link nav-item" onClick={this.navBarCollapseClick}> Resultaten</NavLink>
                         </div>
 
                         <div className="navbar-nav">

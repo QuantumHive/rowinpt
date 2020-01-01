@@ -73,7 +73,7 @@ class Login extends React.Component {
                     {this.renderLogin()}
                 </div>
 
-                <p className="text-muted">&copy; 2018</p>
+                <p className="text-muted">&copy; 2018 - 2020</p>
             </form>
         );
     }
