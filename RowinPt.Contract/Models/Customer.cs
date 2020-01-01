@@ -18,6 +18,7 @@ namespace RowinPt.Contract.Models
 
         public int? Length { get; set; }
         public DateTime? BirthDate { get; set; }
+        public string Goal { get; set; }
 
         public IEnumerable<Subscription> Subscriptions { get; set; }
 
