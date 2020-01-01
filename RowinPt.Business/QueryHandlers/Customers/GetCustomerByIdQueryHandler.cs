@@ -23,6 +23,11 @@ namespace RowinPt.Business.QueryHandlers.Customers
         {
             var customer = _customerReader.GetById(query.Id);
 
+            var lastSeen = _subscriptionReader.Entities
+                .Where(s => s.CustomerId == query.Id)
+                .OrderByDescending(subscription => subscription.RecentEntry)
+                .FirstOrDefault()?.RecentEntry;
+
             return new Customer
             {
                 Id = customer.Id,
@@ -35,6 +40,7 @@ namespace RowinPt.Business.QueryHandlers.Customers
                 PhoneNumber = customer.PhoneNumber,
                 EmailConfirmed = customer.EmailConfirmed,
                 Goal = customer.Goal,
+                LastSeen = lastSeen,
                 Subscriptions = _subscriptionReader.Entities.Where(s => s.CustomerId == customer.Id).Select(subscription =>
                     new Customer.Subscription
                     {

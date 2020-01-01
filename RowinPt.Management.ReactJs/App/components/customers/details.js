@@ -69,6 +69,10 @@ class Customers extends React.Component {
                 </ComboButtons>
                 <Link to={`/admin/customers/measurements/${this.state.data.id}`} className={`btn btn-success btn-block mb-3 ${this.state.data.emailConfirmed ? "" : "disabled"}`}>Meetgegevens</Link>
 
+                <p>
+                    <small className="text-muted">Laatste aanmelding: <strong>{this.state.data.lastSeen ? moment(this.state.data.lastSeen).format("LL") : "nooit"}</strong></small>
+                </p>
+
                 {this.verifiedNotification()}
 
                 <table className="table">
@@ -100,6 +104,10 @@ class Customers extends React.Component {
                         <tr>
                             <th>Klantnummer</th>
                             <td>{this.state.data.number === "" ? "-" : this.state.data.number}</td>
+                        </tr>
+                        <tr>
+                            <th>Doelstelling</th>
+                            <td style={{ whiteSpace: "pre-wrap" }}>{this.state.data.goal}</td>
                         </tr>
                     </tbody>
                 </table>
