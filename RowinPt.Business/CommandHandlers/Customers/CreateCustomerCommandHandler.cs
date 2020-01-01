@@ -31,6 +31,7 @@ namespace RowinPt.Business.CommandHandlers.Customers
                 Sex = model.Sex,
                 Length = model.Length,
                 BirthDate = model.BirthDate,
+                Goal = model.Goal,
 
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,

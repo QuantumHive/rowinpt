@@ -34,6 +34,7 @@ namespace RowinPt.Business.QueryHandlers.Customers
                 Email = customer.Email,
                 PhoneNumber = customer.PhoneNumber,
                 EmailConfirmed = customer.EmailConfirmed,
+                Goal = customer.Goal,
                 Subscriptions = _subscriptionReader.Entities.Where(s => s.CustomerId == customer.Id).Select(subscription =>
                     new Customer.Subscription
                     {
