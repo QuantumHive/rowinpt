@@ -30,6 +30,7 @@ class Customers extends React.Component {
             sex: 1,
             length: "",
             birthDate: null,
+            goal: null,
             subscriptions: [],
             validate: false
         };
@@ -149,6 +150,11 @@ class Customers extends React.Component {
                     <div className="form-group">
                         <label>Klantnummer</label>
                         <input type="text" name="number" className="form-control" placeholder="Klantnummer" value={this.state.number} onChange={this.handleInputChange} />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Doelstelling</label>
+                        <textarea name="goal" className="form-control" placeholder="Doelstelling" value={this.state.goal} onChange={this.handleInputChange} rows="3" />
                     </div>
 
                     <Subscription courseTypes={this.props.coursetypes} subscriptions={this.state.subscriptions} chooseSubscription={this.chooseSubscription} />
