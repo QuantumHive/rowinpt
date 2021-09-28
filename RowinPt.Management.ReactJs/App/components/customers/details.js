@@ -12,6 +12,7 @@ import { isLoading, isArray, getResult } from "../../utils/apiHelpers";
 
 import moment from "moment";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Calendar from 'react-calendar';
 
 class Customers extends React.Component {
     constructor(props) {
@@ -109,6 +110,14 @@ class Customers extends React.Component {
                             <th>Doelstelling</th>
                             <td style={{ whiteSpace: "pre-wrap" }}>{this.state.data.goal}</td>
                         </tr>
+                        <tr>
+                            <th>Medische historie</th>
+                            <td style={{ whiteSpace: "pre-wrap" }}>{this.state.data.medicalHistory}</td>
+                        </tr>
+                        <tr>
+                            <th>Bijzonderheden</th>
+                            <td style={{ whiteSpace: "pre-wrap" }}>{this.state.data.details}</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -138,6 +147,15 @@ class Customers extends React.Component {
                             }
                         </ul>
                 }
+
+                <h4 className="mt-3">Bezoekers historie</h4>
+
+                <Calendar
+                    locale="nl-NL"
+                    maxDate={new Date()}
+                    minDetail="year"
+                    tileClassName="bg-danger  "
+                />
 
                 <Modal isOpen={this.state.modal && this.props.submitted} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>

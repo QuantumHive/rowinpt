@@ -35,6 +35,8 @@ namespace RowinPt.Business.CommandHandlers.Customers
             customer.BirthDate = command.Model.BirthDate;
             customer.Length = command.Model.Length;
             customer.Goal = command.Model.Goal;
+            customer.MedicalHistory = command.Model.MedicalHistory;
+            customer.Details = command.Model.Details;
 
             UpdateSubscriptions(customer, command);
 

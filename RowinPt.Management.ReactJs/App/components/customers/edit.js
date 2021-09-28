@@ -160,6 +160,16 @@ class Customers extends React.Component {
                         <textarea value={this.state.goal} onChange={this.handleInputChange} rows="3" className="form-control" name="goal" placeholder="Doelstelling" />
                     </div>
 
+                    <div className="form-group">
+                        <label>Medische historie</label>
+                        <textarea value={this.state.medicalHistory} onChange={this.handleInputChange} rows="3" className="form-control" name="medicalHistory" placeholder="Medische historie" />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Bijzonderheden</label>
+                        <textarea value={this.state.details} onChange={this.handleInputChange} rows="3" className="form-control" name="details" placeholder="Bijzonderheden" />
+                    </div>
+
                     <Subscription courseTypes={this.props.coursetypes} subscriptions={this.state.subscriptions} chooseSubscription={this.chooseSubscription} />
                     
                     <Submit onSubmit={this.submit}>Opslaan</Submit>

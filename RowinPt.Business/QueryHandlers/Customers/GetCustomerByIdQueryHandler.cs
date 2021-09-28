@@ -40,6 +40,8 @@ namespace RowinPt.Business.QueryHandlers.Customers
                 PhoneNumber = customer.PhoneNumber,
                 EmailConfirmed = customer.EmailConfirmed,
                 Goal = customer.Goal,
+                MedicalHistory = customer.MedicalHistory,
+                Details = customer.Details,
                 LastSeen = lastSeen,
                 Subscriptions = _subscriptionReader.Entities.Where(s => s.CustomerId == customer.Id).Select(subscription =>
                     new Customer.Subscription

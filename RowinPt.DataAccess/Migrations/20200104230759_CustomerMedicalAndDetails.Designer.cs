@@ -13,9 +13,10 @@ using System;
 namespace RowinPt.DataAccess.Migrations
 {
     [DbContext(typeof(RowinPtContext))]
-    partial class RowinPtContextModelSnapshot : ModelSnapshot
+    [Migration("20200104230759_CustomerMedicalAndDetails")]
+    partial class CustomerMedicalAndDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -9,6 +9,8 @@ namespace RowinPt.Domain
         public int? Length { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Goal { get; set; }
+        public string MedicalHistory { get; set; }
+        public string Details { get; set; }
 
         public IEnumerable<AgendaModel> Agenda { get; set; }
         public IEnumerable<SubscriptionModel> Subscriptions { get; set; }

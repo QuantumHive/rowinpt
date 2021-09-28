@@ -41,8 +41,9 @@ namespace RowinPt.Business.Validators.Plan
                 }.ToSingle();
             }
 
-            var minimumDate = _timeProvider.Today.StartOfWeek().AddDays(-7 * 4);
-            var multiplier = Multiplier(subscription.StartDate, minimumDate);
+            const int expiration = 12;
+            var minimumDate = _timeProvider.Today.StartOfWeek().AddDays(-7 * expiration);
+            var multiplier = Multiplier(subscription.StartDate, minimumDate, expiration);
 
             var registrations =
                 from agenda in _agendaReader.Entities.Include(a => a.ScheduleItem.Course)
@@ -62,11 +63,11 @@ namespace RowinPt.Business.Validators.Plan
             return Enumerable.Empty<ValidationObject>();
         }
 
-        private int Multiplier(DateTime startDate, DateTime minimumDate)
+        private int Multiplier(DateTime startDate, DateTime minimumDate, int expiration)
         {
             var startDateStartOfWeek = startDate.StartOfWeek();
 
-            var multiplier = 8;
+            var multiplier = expiration + 4; // + 4 weeks in the future
             if (minimumDate < startDateStartOfWeek)
             {
                 var pointer = minimumDate.Date;

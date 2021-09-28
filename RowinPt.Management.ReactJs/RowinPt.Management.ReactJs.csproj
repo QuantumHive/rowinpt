@@ -6,8 +6,9 @@
     <Authors>Alper Aslan Apps</Authors>
     <Company>Rowin Enckhof Personal Training</Company>
     <Product>RowinPt Management React App</Product>
-    <AssemblyVersion>2.0.3</AssemblyVersion>
+    <AssemblyVersion>2.0.4</AssemblyVersion>
     <FileVersion>2.0.0</FileVersion>
+    <UserSecretsId>2dad03be-8b30-480e-9dca-5f23bf76c273</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

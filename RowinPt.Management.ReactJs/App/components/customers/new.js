@@ -31,6 +31,8 @@ class Customers extends React.Component {
             length: "",
             birthDate: null,
             goal: null,
+            medicalHistory: null,
+            details: null,
             subscriptions: [],
             validate: false
         };
@@ -155,6 +157,16 @@ class Customers extends React.Component {
                     <div className="form-group">
                         <label>Doelstelling</label>
                         <textarea name="goal" className="form-control" placeholder="Doelstelling" value={this.state.goal} onChange={this.handleInputChange} rows="3" />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Medische historie</label>
+                        <textarea name="medicalHistory" className="form-control" placeholder="Medische historie" value={this.state.medicalHistory} onChange={this.handleInputChange} rows="3" />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Bijzonderheden</label>
+                        <textarea name="details" className="form-control" placeholder="Bijzonderheden" value={this.state.details} onChange={this.handleInputChange} rows="3" />
                     </div>
 
                     <Subscription courseTypes={this.props.coursetypes} subscriptions={this.state.subscriptions} chooseSubscription={this.chooseSubscription} />
